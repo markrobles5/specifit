@@ -1,8 +1,8 @@
-# specifit
+# Specifit
 Personal Food Recommender System
 
 
-● Specifit
+● Motivation
 Our group has come to the realization that as students at UCI, we have a hard time finding
 restaurants nearby to eat at that fit our specific diets. We are going to make an app that
 searches for dishes at restaurants that fit the user’s dietary regimen.
@@ -23,7 +23,4 @@ pertaining to restaurants will be found using Yelp and web crawling restaurant w
 
 
 Meet the team:
-Arik Rakibullah
-Mark Robles
-Ivan Li
-Neeraj Dharmadhikari
+Arik Rakibullah, Mark Robles, Ivan Li, Neeraj Dharmadhikari
