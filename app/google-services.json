@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "681869035670",
+    "firebase_url": "https://specifit-289e9.firebaseio.com",
+    "project_id": "specifit-289e9",
+    "storage_bucket": "specifit-289e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681869035670:android:7034d887ec8f470a0f5ab7",
+        "android_client_info": {
+          "package_name": "com.example.ivanwl.specifit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681869035670-v673dq4k56ke4d2j17haf6qqr7litvpd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ivanwl.specifit",
+            "certificate_hash": "3fca050ad4b2f73db01661f122254f15c2f98716"
+          }
+        },
+        {
+          "client_id": "681869035670-tjt6gbb0lg14v67gq1bmp6jsq8glmnj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk43MawKKbq1tI87UK9GDmcS7TDkytohc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681869035670-tjt6gbb0lg14v67gq1bmp6jsq8glmnj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

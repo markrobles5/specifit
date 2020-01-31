@@ -15,6 +15,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -51,6 +56,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Firebase Stuff
+        //Add to database example
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+        myRef.setValue("Hello, World!");
+
+        //Read from database example
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                textView.setText(value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("error", "Failed to read value.", error.toException());
+            }
+        });
+
 
         String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
         String APP_ID = "548c69f5";
@@ -69,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             JsonObjectRequest stringRequest = new JsonObjectRequest(URL, jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    textView.setText("Response is: " + response.toString());
+                    //textView.setText("Response is: " + response.toString());
                     Log.i("VOLLEY", response.toString());
                 }
             }, new Response.ErrorListener() {
