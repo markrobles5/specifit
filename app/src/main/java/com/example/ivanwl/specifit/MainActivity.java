@@ -1,5 +1,8 @@
 package com.example.ivanwl.specifit;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -13,6 +16,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.view.View;
@@ -33,11 +39,16 @@ import android.view.MenuItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 
 
 public class MainActivity extends AppCompatActivity {
+    private FusedLocationProviderClient fusedLocationClient;
+    int LocationPermission = 1;
+    double latitude = 0.0;
+    double longitude = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Getting Location
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getLocation();
+
+
         //Firebase Stuff
         //Add to database example
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -69,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 String value = dataSnapshot.getValue(String.class);
-                textView.setText(value);
+                //textView.setText(value);
             }
 
             @Override
@@ -80,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // Nutritionix
         String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
         String APP_ID = "548c69f5";
 
@@ -90,9 +107,6 @@ public class MainActivity extends AppCompatActivity {
             jsonBody.put("appId", APP_ID);
             jsonBody.put("appKey", APP_KEY);
             jsonBody.put("query", "Caffe Vanilla Frappuccino with Nonfat Milk and Whip, Tall");
-
-            final String requestBody = jsonBody.toString();
-
 
             JsonObjectRequest stringRequest = new JsonObjectRequest(URL, jsonBody, new Response.Listener<JSONObject>() {
                 @Override
@@ -105,37 +119,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.e("VOLLEY", error.toString());
                 }
-            }) {
-//                @Override
-//                public String getBodyContentType() {
-//                    return "application/json; charset=utf-8";
-//                }
-
-//                @Override
-//                public byte[] getBody() throws AuthFailureError {
-//                    try {
-//                        return requestBody == null ? null : requestBody.getBytes("utf-8");
-//                    } catch (UnsupportedEncodingException uee) {
-//                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-//                        return null;
-//                    }
-//                }
-
-//                @Override
-//                protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//                    String responseString = "";
-//                    if (response != null) {
-//                        responseString = String.valueOf(response.statusCode);
-//                        // can get more details such as response.headers
-//                    }
-//                    return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
-//                }
-            };
+            });
 
             requestQueue.add(stringRequest);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -159,4 +149,55 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void getLocation(){
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        LocationPermission);
+
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        LocationPermission);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                                Log.i("VOLLEY", Double.toString(latitude));
+                                Log.i("VOLLEY", Double.toString(longitude));
+
+                            } else{
+                                Log.i("VOLLEY", "Null Location");
+                            }
+                        }
+                    });
+        }
+
+    }
+
+
 }
