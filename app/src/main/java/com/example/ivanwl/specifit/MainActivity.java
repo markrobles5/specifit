@@ -46,9 +46,8 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
-    int LocationPermission = 1;
-    double latitude = 0.0;
-    double longitude = 0.0;
+    int LocationPermission = 0;
+    Location currentLocation = new Location("currentLocation");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,10 +184,9 @@ public class MainActivity extends AppCompatActivity {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
-                                Log.i("VOLLEY", Double.toString(latitude));
-                                Log.i("VOLLEY", Double.toString(longitude));
+                                currentLocation = location;
+                                Log.i("VOLLEY", "Latitude: " + currentLocation.getLatitude());
+                                Log.i("VOLLEY", "Longitude: " + currentLocation.getLongitude());
 
                             } else{
                                 Log.i("VOLLEY", "Null Location");
