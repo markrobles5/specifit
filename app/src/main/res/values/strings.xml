@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Specifit</string>
     <string name="action_settings">Settings</string>
+    <string-array name="diets">
+        <item>Diet 1</item>
+        <item>Diet 2</item>
+        <item>Diet 3</item>
+    </string-array>
+    <string-array name="other">
+        <item>Other 1</item>
+        <item>Other 2</item>
+        <item>Other 3</item>
+    </string-array>
 </resources>

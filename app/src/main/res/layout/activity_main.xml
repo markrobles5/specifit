@@ -15,13 +15,35 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="@android:dimen/thumbnail_height"
+        android:layout_height="@android:dimen/notification_large_icon_width"
+        android:layout_gravity="center|start"
+        android:dropDownWidth="wrap_content"
+        android:entries="@array/diets"
+        android:spinnerMode="dropdown"
+        android:visibility="visible"
+        android:background="#ffffff"/>
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="@android:dimen/thumbnail_height"
+        android:layout_height="@android:dimen/notification_large_icon_width"
+        android:layout_gravity="center|end"
+        android:background="#ffffff"
+        android:dropDownWidth="wrap_content"
+        android:entries="@array/other"
+        android:spinnerMode="dropdown"
+        android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

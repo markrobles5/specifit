@@ -32,6 +32,9 @@ import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +56,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Drop down menu to select diets. Can be copied and modified to be used for other needs.
+        Spinner mySpinner = findViewById(R.id.spinner1);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_expandable_list_item_1,
+                getResources().getStringArray(R.array.diets));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object item = parent.getItemAtPosition(position);
+                Log.i("Chosen diet", item.toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView textView = findViewById(R.id.text_id);
         setSupportActionBar(toolbar);
