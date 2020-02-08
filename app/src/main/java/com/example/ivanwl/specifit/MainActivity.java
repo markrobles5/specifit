@@ -21,6 +21,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ivanwl.specifit.Services.Location.GPS;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -51,40 +52,11 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
+    private GPS gpsLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //GPS Methods for reference
-        //https://developer.android.com/reference/android/location/LocationManager#public-methods_1
-        final LocationManager locationManager =
-                (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        final boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        if (!isGPSEnabled) {
-            // Build an alert dialog here that requests that the user enable
-            // the location services, then when the user clicks the "OK" button,
-            // call enableLocationSettings()
-            Log.i("GPSLocation", "GPS not allowed");
-        }
-
-        //Location Event Listener when locationManager.requestSingleUpdate() is called
-        final LocationListener listener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                // A new location update is received.  Do something useful with it.  In this case,
-                // we're sending the update to a handler which then updates the UI with the new
-                // location.
-                Log.i("PRINT", Double.toString(location.getLatitude()));
-                Log.i("PRINT", Double.toString(location.getLongitude()));
-            }
-            @Override
-            public void onProviderDisabled(String str) {}
-
-            @Override
-            public void onProviderEnabled(String str) {}
-
-            @Override
-            public void onStatusChanged(String str, int num, Bundle bundle) {}
-        };
+        gpsLocation = new GPS(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -119,11 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                try {
-                    locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, listener, null);
-                } catch (SecurityException err) {
-                    Log.i("PRINT", err.toString());
-                }
+                Log.i("PRINT", Double.toString(gpsLocation.getLongitude()));
+                Log.i("PRINT", Double.toString(gpsLocation.getLatitude()));
             }
         });
 
@@ -203,12 +172,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    //For allowing location access if denied earlier
-    private void enableLocationSettings() {
-        Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(settingsIntent);
     }
 }
