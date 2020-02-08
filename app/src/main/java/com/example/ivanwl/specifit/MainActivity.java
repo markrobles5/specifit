@@ -1,8 +1,13 @@
 package com.example.ivanwl.specifit;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +35,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Message;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,18 +49,43 @@ import android.view.MenuItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-
-
 
 public class MainActivity extends AppCompatActivity {
-    private FusedLocationProviderClient fusedLocationClient;
-    int LocationPermission = 0;
-    Location currentLocation = new Location("currentLocation");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //GPS Methods for reference
+        //https://developer.android.com/reference/android/location/LocationManager#public-methods_1
+        final LocationManager locationManager =
+                (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        final boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if (!isGPSEnabled) {
+            // Build an alert dialog here that requests that the user enable
+            // the location services, then when the user clicks the "OK" button,
+            // call enableLocationSettings()
+            Log.i("GPSLocation", "GPS not allowed");
+        }
+
+        //Location Event Listener when locationManager.requestSingleUpdate() is called
+        final LocationListener listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                // A new location update is received.  Do something useful with it.  In this case,
+                // we're sending the update to a handler which then updates the UI with the new
+                // location.
+                Log.i("PRINT", Double.toString(location.getLatitude()));
+                Log.i("PRINT", Double.toString(location.getLongitude()));
+            }
+            @Override
+            public void onProviderDisabled(String str) {}
+
+            @Override
+            public void onProviderEnabled(String str) {}
+
+            @Override
+            public void onStatusChanged(String str, int num, Bundle bundle) {}
+        };
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -68,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                Log.i("Chosen diet", item.toString());
+                Log.i("PRINT", item.toString());
             }
 
             @Override
@@ -87,13 +119,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                try {
+                    locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, listener, null);
+                } catch (SecurityException err) {
+                    Log.i("PRINT", err.toString());
+                }
             }
         });
-
-        // Getting Location
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLocation();
-
 
         //Firebase Stuff
         //Add to database example
@@ -118,24 +150,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+/*
         // Nutritionix
         String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
         String APP_ID = "548c69f5";
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String URL = "https://api.nutritionix.com/v1_1/search";
+            String postURL = "https://api.nutritionix.com/v1_1/search";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("appId", APP_ID);
             jsonBody.put("appKey", APP_KEY);
             jsonBody.put("query", "Caffe Vanilla Frappuccino with Nonfat Milk and Whip, Tall");
 
-            JsonObjectRequest stringRequest = new JsonObjectRequest(URL, jsonBody, new Response.Listener<JSONObject>() {
+            JsonObjectRequest stringRequest = new JsonObjectRequest(postURL, jsonBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     //textView.setText("Response is: " + response.toString());
-                    Log.i("VOLLEY", response.toString());
+                    //Log.i("PRINT", response.toString());
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -148,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+*/
     }
 
     @Override
@@ -173,53 +205,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getLocation(){
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        LocationPermission);
-
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        LocationPermission);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            // Permission has already been granted
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                // Logic to handle location object
-                                currentLocation = location;
-                                Log.i("VOLLEY", "Latitude: " + currentLocation.getLatitude());
-                                Log.i("VOLLEY", "Longitude: " + currentLocation.getLongitude());
-
-                            } else{
-                                Log.i("VOLLEY", "Null Location");
-                            }
-                        }
-                    });
-        }
-
+    //For allowing location access if denied earlier
+    private void enableLocationSettings() {
+        Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(settingsIntent);
     }
-
-
 }
