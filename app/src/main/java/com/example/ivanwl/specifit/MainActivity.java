@@ -22,6 +22,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ivanwl.specifit.Services.Location.GPS;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Search;
+import com.example.ivanwl.specifit.Services.Nutritionix.NutritionixAPI;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -52,12 +54,11 @@ import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity {
-    private GPS gpsLocation;
+    private GPS gps;
+    private NutritionixAPI nutritionix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        gpsLocation = new GPS(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                Log.i("PRINT", item.toString());
+                //Log.i("PRINT", item.toString());
             }
 
             @Override
@@ -91,10 +92,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Log.i("PRINT", Double.toString(gpsLocation.getLongitude()));
-                Log.i("PRINT", Double.toString(gpsLocation.getLatitude()));
+                Log.i("PRINT", Double.toString(gps.getLongitude()));
+                Log.i("PRINT", Double.toString(gps.getLatitude()));
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gps = new GPS(this);
+        nutritionix = new NutritionixAPI(this);
+
+
+        nutritionix.search("milkshake");
+        nutritionix.location(33.646142, -117.838884, 500);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         //Firebase Stuff
         //Add to database example
@@ -118,38 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("error", "Failed to read value.", error.toException());
             }
         });
-
-/*
-        // Nutritionix
-        String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
-        String APP_ID = "548c69f5";
-
-        try {
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String postURL = "https://api.nutritionix.com/v1_1/search";
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("appId", APP_ID);
-            jsonBody.put("appKey", APP_KEY);
-            jsonBody.put("query", "Caffe Vanilla Frappuccino with Nonfat Milk and Whip, Tall");
-
-            JsonObjectRequest stringRequest = new JsonObjectRequest(postURL, jsonBody, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    //textView.setText("Response is: " + response.toString());
-                    //Log.i("PRINT", response.toString());
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("VOLLEY", error.toString());
-                }
-            });
-
-            requestQueue.add(stringRequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-*/
     }
 
     @Override
