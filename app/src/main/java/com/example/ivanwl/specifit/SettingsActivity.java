@@ -6,7 +6,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.firebase.database.core.view.Change;
+
 public class SettingsActivity extends AppCompatActivity {
+    //  TODO - Change settings options
+    //  XML Location of settings options are in
+    //  /res/xml/root_preferences.xml
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
