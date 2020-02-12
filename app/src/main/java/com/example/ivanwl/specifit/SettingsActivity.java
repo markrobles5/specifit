@@ -1,6 +1,8 @@
 package com.example.ivanwl.specifit;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,5 +34,17 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                super.onBackPressed();
+                Log.i("PRINT", "Back Button Clicked");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
