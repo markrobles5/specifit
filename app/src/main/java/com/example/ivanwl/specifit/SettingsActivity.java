@@ -1,5 +1,6 @@
 package com.example.ivanwl.specifit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -8,9 +9,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.google.firebase.database.core.view.Change;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SettingsActivity extends AppCompatActivity {
+    private Firebase firebase;
+
     //  TODO - Change settings options
     //  XML Location of settings options are in
     //  /res/xml/root_preferences.xml
@@ -27,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        firebase = new Firebase();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -43,8 +51,15 @@ public class SettingsActivity extends AppCompatActivity {
             case android.R.id.home:
                 super.onBackPressed();
                 Log.i("PRINT", "Back Button Clicked");
+                firebase.saveSettings(mapSettings());
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Map<String, Object> mapSettings() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("KEY", "VALUE");
+        return map;
     }
 }

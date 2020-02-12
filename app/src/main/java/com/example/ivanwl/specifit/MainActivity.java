@@ -21,6 +21,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.example.ivanwl.specifit.Services.Location.GPS;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Search;
 import com.example.ivanwl.specifit.Services.Nutritionix.NutritionixAPI;
@@ -56,6 +57,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     private GPS gps;
     private NutritionixAPI nutritionix;
+    private Firebase firebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,47 +97,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("PRINT", Double.toString(gps.getLongitude()) + "," + Double.toString(gps.getLatitude()));
             }
         });
+
+        setupServices();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void setupServices() {
         gps = new GPS(this);
         nutritionix = new NutritionixAPI(this);
-
+        firebase = new Firebase();
 
         nutritionix.search("milkshake");
         nutritionix.location(33.646142, -117.838884, 500);
+        firebase.retrieveSettings();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //Firebase Stuff
-        //Add to database example
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
-
-        //Read from database example
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                //textView.setText(value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("error", "Failed to read value.", error.toException());
-            }
-        });
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             //  Build Intent and go to Settings Activity
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-
             return true;
         }
 
