@@ -95,10 +95,16 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Location Updated", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
                 Log.i("PRINT", Double.toString(gps.getLongitude()) + "," + Double.toString(gps.getLatitude()));
+                goToRestaurants();
             }
         });
 
         setupServices();
+    }
+
+    private void goToRestaurants(){
+        Intent intent = new Intent(this, Restaurants.class);
+        startActivity(intent);
     }
 
     private void setupServices() {
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         firebase = new Firebase();
 
         nutritionix.search("milkshake");
-        nutritionix.location(33.646142, -117.838884, 500);
+        //nutritionix.location(33.646142, -117.838884, 500);
         firebase.retrieveSettings();
     }
 

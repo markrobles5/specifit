@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +26,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,8 +119,23 @@ public class NutritionixAPI {
     //TODO
     //do something with response from /location
     private void location(Locations model) {
+        ArrayList<String> restaurants = new ArrayList<>();
         for (Location x : model.locations) {
+            restaurants.add(x.name);
             Log.i("PRINT", x.name);
         }
+
+        ListView listView = this.context.findViewById(R.id.listview);
+        ArrayAdapter adapter = new ArrayAdapter<>(context,
+                R.layout.activity_listview, restaurants);
+
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("PRINT", "Click");
+            }
+        });
     }
 }
