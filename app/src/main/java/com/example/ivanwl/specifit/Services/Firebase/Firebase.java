@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.Map;
+import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 public class Firebase implements Serializable {
     private Activity context;
@@ -47,7 +48,7 @@ public class Firebase implements Serializable {
     //  Settings has changed, need to update Main Activity
     private void updateSettings(DataSnapshot dataSnapshot) {
         // Values can be null
-        Log.i("PRINT", "Entry: " + dataSnapshot.child("KEY").getValue(String.class));
-        Log.i("PRINT", "Entry: " + dataSnapshot.child("Hello").getValue(String.class));
+        print("Entry: " + dataSnapshot.child("KEY").getValue(String.class));
+        print("Entry: " + dataSnapshot.child("Hello").getValue(String.class));
     }
 }

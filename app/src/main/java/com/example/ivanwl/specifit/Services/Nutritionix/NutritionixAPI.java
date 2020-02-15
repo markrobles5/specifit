@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import static com.example.ivanwl.specifit.Utils.Utils.print;
+
 
 
 public class NutritionixAPI {
@@ -62,7 +64,7 @@ public class NutritionixAPI {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError e) {
-                    Log.i("PRINT", e.toString());
+                    print(e.toString());
                 }
             });
 
@@ -122,7 +124,7 @@ public class NutritionixAPI {
         ArrayList<String> restaurants = new ArrayList<>();
         for (Location x : model.locations) {
             restaurants.add(x.name);
-            Log.i("PRINT", x.name);
+            print(x.name);
         }
 
         ListView listView = this.context.findViewById(R.id.listview);
@@ -134,7 +136,7 @@ public class NutritionixAPI {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("PRINT", "Click");
+                print("Click");
             }
         });
     }

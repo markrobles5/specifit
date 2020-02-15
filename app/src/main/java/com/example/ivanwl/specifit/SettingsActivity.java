@@ -14,6 +14,8 @@ import com.google.firebase.database.core.view.Change;
 
 import java.util.HashMap;
 import java.util.Map;
+import static com.example.ivanwl.specifit.Utils.Utils.print;
+
 
 public class SettingsActivity extends AppCompatActivity {
     private Firebase firebase;
@@ -50,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 super.onBackPressed();
-                Log.i("PRINT", "Back Button Clicked");
+                print("Back Button Clicked");
                 firebase.saveSettings(mapSettings());
                 return true;
         }

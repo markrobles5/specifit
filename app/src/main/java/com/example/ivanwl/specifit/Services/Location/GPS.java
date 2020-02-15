@@ -7,6 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 //GPS Methods for reference
 //https://developer.android.com/reference/android/location/LocationManager#public-methods_1
@@ -31,7 +32,7 @@ public class GPS {
 
     public double getLongitude() {
         if (!isGPSEnabled) {
-            Log.i("PRINT", "GPS not allowed");
+            print("GPS not allowed");
             return 0;
         }
         return longitude;
@@ -39,7 +40,7 @@ public class GPS {
 
     public double getLatitude() {
         if (!isGPSEnabled) {
-            Log.i("PRINT", "GPS not allowed");
+            print("GPS not allowed");
             return 0;
         }
         return latitude;

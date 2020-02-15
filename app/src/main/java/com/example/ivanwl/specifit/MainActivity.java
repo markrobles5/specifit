@@ -52,6 +52,7 @@ import android.view.MenuItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        print("Hello");
         // Drop down menu to select diets. Can be copied and modified to be used for other needs.
         Spinner mySpinner = findViewById(R.id.spinner1);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(MainActivity.this,
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                //Log.i("PRINT", item.toString());
+                //print(item.toString());
             }
 
             @Override
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Location Updated", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
-                Log.i("PRINT", Double.toString(gps.getLongitude()) + "," + Double.toString(gps.getLatitude()));
+                print(Double.toString(gps.getLongitude()) + "," + Double.toString(gps.getLatitude()));
                 goToRestaurants();
             }
         });

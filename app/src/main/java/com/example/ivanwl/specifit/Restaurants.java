@@ -20,6 +20,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import static com.example.ivanwl.specifit.Utils.Utils.print;
+
 
 public class Restaurants extends AppCompatActivity {
 
