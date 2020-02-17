@@ -24,7 +24,11 @@
         <activity
             android:name=".RestaurantsActivity"
             android:label="@string/title_activity_restaurants"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ivanwl.specifit.MainActivity" />
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"

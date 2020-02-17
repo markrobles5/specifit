@@ -39,7 +39,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         setContentView(R.layout.activity_restaurants);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         gps = new GPS(this, this);
         nutritionix = new NutritionixAPI(this, this);
