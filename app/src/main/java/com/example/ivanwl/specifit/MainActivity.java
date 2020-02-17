@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        print("Hello");
         // Drop down menu to select diets. Can be copied and modified to be used for other needs.
         Spinner mySpinner = findViewById(R.id.spinner1);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(MainActivity.this,

@@ -67,7 +67,7 @@ public class NutritionixAPI {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError e) {
-                    print(e.toString());
+                    e.printStackTrace();
                 }
             });
 
