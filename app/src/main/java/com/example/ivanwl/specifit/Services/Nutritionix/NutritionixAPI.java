@@ -123,12 +123,14 @@ public class NutritionixAPI {
     }
 
     //  TODO
-    //  do something with response from /location
+    //  right
     private void location(Locations model) {
-        ArrayList<String> restaurants = new ArrayList<>();
+        ArrayList<Location> restaurants = new ArrayList<>();
         for (Location x : model.locations) {
-            restaurants.add(x.name);
-            print(x.name);
+            restaurants.add(x);
+            /*restaurants.add(x.name + "\t" +
+                    Math.round(x.distance_km * 0.621371 * 100.0) / 100.0 + "mi");
+             */
         }
 
         //  Callback goes back to Restaurant Activity

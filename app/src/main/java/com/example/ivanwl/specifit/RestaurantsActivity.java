@@ -2,8 +2,10 @@ package com.example.ivanwl.specifit;
 
 import android.os.Bundle;
 
+import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Services.Location.GPS;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -48,10 +50,9 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     }
 
     @Override
-    public void updateListView(ArrayList<String> restaurants) {
+    public void updateListView(ArrayList<Location> restaurants) {
         ListView listView = findViewById(R.id.listview);
-        ArrayAdapter adapter = new ArrayAdapter<>(this,
-                R.layout.activity_listview, restaurants);
+        RestaurantArrayAdapter adapter = new RestaurantArrayAdapter(this, restaurants);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,5 +62,4 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
             }
         });
     }
-
 }
