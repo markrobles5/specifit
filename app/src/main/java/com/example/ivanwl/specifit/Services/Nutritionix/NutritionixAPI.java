@@ -84,7 +84,7 @@ public class NutritionixAPI {
         textView.setText(model.hits[0].fields.item_name);
     }
 
-    public void location(double latitude, double longitude, int distance) {
+    public void location(double latitude, double longitude, int distance, int limit) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
@@ -92,7 +92,8 @@ public class NutritionixAPI {
                 .appendPath("v2")
                 .appendPath("locations")
                 .appendQueryParameter("ll", Double.toString(latitude) + "," + Double.toString(longitude))
-                .appendQueryParameter("distance", Integer.toString(distance) + "m");
+                .appendQueryParameter("distance", Integer.toString(distance) + "m")
+                .appendQueryParameter("limit", Integer.toString(limit));
         String getURL = builder.build().toString();
 
         JsonObjectRequest jsonRequest = new JsonObjectRequest

@@ -44,7 +44,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
 
     @Override
     public void getRestaurants(Double lattitude, Double longitude) {
-        nutritionix.location(lattitude, longitude, 500);
+        nutritionix.location(lattitude, longitude, 5000, 50);
     }
 
     @Override
