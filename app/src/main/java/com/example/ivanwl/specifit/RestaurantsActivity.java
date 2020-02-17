@@ -1,5 +1,6 @@
 package com.example.ivanwl.specifit;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
@@ -50,7 +51,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     }
 
     @Override
-    public void updateListView(ArrayList<Location> restaurants) {
+    public void updateListView(final ArrayList<Location> restaurants) {
         ListView listView = findViewById(R.id.listview);
         RestaurantArrayAdapter adapter = new RestaurantArrayAdapter(this, restaurants);
 
@@ -58,8 +59,15 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                print("Click");
+                goToRestaurantActivity(restaurants, i);
             }
         });
+    }
+
+    private void goToRestaurantActivity(ArrayList<Location> restaurants, int index) {
+        Intent intent = new Intent(this, RestaurantActivity.class);
+        intent.putExtra("Restaurant_Name", restaurants.get(index).name);
+        intent.putExtra("Restaurant_ID", restaurants.get(index).brand_id);
+        startActivity(intent);
     }
 }
