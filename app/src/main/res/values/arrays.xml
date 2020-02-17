@@ -1,12 +1,28 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+    <string-array name="sex_entries">
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="sex_values">
+        <item>male</item>
+        <item>female</item>
+    </string-array>
+
+    <string-array name="activity_entries">
+        <item>Sedentary (little/none)</item>
+        <item>Light (1-3 days/week)</item>
+        <item>Moderate (3-5 days/week)</item>
+        <item>Very (6-7 days/week)</item>
+        <item>Extra (sports/physical job)</item>
+    </string-array>
+
+    <string-array name="activity_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
     </string-array>
 </resources>

@@ -18,34 +18,36 @@
 
     <PreferenceCategory app:title="@string/messages_header">
 
+        <ListPreference
+            app:entries="@array/sex_entries"
+            app:entryValues="@array/sex_values"
+            app:key="sex"
+            app:title="@string/sex_title"
+            app:useSimpleSummaryProvider="true" />
+
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="BirthDay"
+            app:title="@string/birthday"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="Height"
+            app:title="@string/height"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="Weight"
+            app:title="@string/body_weight"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+            app:entries="@array/activity_entries"
+            app:entryValues="@array/activity_values"
+            app:key="Activity"
+            app:title="@string/activity_title"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
-    </PreferenceCategory>
 
 </PreferenceScreen>
