@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.R;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Locations;
@@ -39,9 +40,11 @@ public class NutritionixAPI {
     final private String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
     final private String APP_ID = "548c69f5";
     private Activity context;
+    private RestaurantCallback callback;
 
-    public NutritionixAPI(Activity context) {
+    public NutritionixAPI(Activity context, RestaurantCallback callback) {
         this.context = context;
+        this.callback = callback;
     }
 
     public void search(String query) {
@@ -74,8 +77,8 @@ public class NutritionixAPI {
         }
     }
 
-    //TODO
-    //do something with response from /search
+    //  TODO
+    //  do something with response from /search
     private void search(Search model) {
         TextView textView = this.context.findViewById(R.id.text_id);
         textView.setText(model.hits[0].fields.item_name);
@@ -118,8 +121,8 @@ public class NutritionixAPI {
         requestQueue.add(jsonRequest);
     }
 
-    //TODO
-    //do something with response from /location
+    //  TODO
+    //  do something with response from /location
     private void location(Locations model) {
         ArrayList<String> restaurants = new ArrayList<>();
         for (Location x : model.locations) {
@@ -127,17 +130,8 @@ public class NutritionixAPI {
             print(x.name);
         }
 
-        ListView listView = this.context.findViewById(R.id.listview);
-        ArrayAdapter adapter = new ArrayAdapter<>(context,
-                R.layout.activity_listview, restaurants);
-
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                print("Click");
-            }
-        });
+        //  Callback goes back to Restaurant Activity
+        //  to update ListView
+        callback.updateListView(restaurants);
     }
 }

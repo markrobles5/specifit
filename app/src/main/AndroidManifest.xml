@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Restaurants"
+            android:name=".RestaurantsActivity"
             android:label="@string/title_activity_restaurants"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

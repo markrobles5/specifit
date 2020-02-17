@@ -7,6 +7,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
+
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 //GPS Methods for reference
@@ -18,8 +21,10 @@ public class GPS {
     private boolean isGPSEnabled;
     private double longitude;
     private double latitude;
+    private RestaurantCallback callback;
 
-    public GPS(Context context) {
+    public GPS(Context context, RestaurantCallback callback) {
+        this.callback = callback;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -54,6 +59,7 @@ public class GPS {
             // location.
             longitude = location.getLongitude();
             latitude = location.getLatitude();
+            callback.getRestaurants(location.getLatitude(), location.getLongitude());
         }
         @Override
         public void onProviderDisabled(String str) {}
