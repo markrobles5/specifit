@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
+import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
 
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
@@ -21,9 +22,9 @@ public class GPS {
     private boolean isGPSEnabled;
     private double longitude;
     private double latitude;
-    private RestaurantCallback callback;
+    private RestaurantsCallback callback;
 
-    public GPS(Context context, RestaurantCallback callback) {
+    public GPS(Context context, RestaurantsCallback callback) {
         this.callback = callback;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);

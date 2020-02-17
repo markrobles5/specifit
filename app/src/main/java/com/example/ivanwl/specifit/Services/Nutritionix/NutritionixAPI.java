@@ -18,9 +18,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
+import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
 import com.example.ivanwl.specifit.R;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Locations;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Field;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Hit;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Search;
 import com.google.gson.Gson;
 
@@ -40,21 +43,28 @@ public class NutritionixAPI {
     final private String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
     final private String APP_ID = "548c69f5";
     private Activity context;
-    private RestaurantCallback callback;
+    private RestaurantsCallback restaurantsCallback;
+    private RestaurantCallback restaurantCallback;
 
-    public NutritionixAPI(Activity context, RestaurantCallback callback) {
+    public NutritionixAPI(Activity context, RestaurantsCallback restaurantsCallback, RestaurantCallback restaurantCallback) {
         this.context = context;
-        this.callback = callback;
+        this.restaurantsCallback = restaurantsCallback;
+        this.restaurantCallback = restaurantCallback;
     }
 
-    public void search(String query) {
+    public void search(String query, String restaurantID) {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             String postURL = "https://api.nutritionix.com/v1_1/search";
             JSONObject jsonBody = new JSONObject();
+            JSONObject restaurant = new JSONObject();
+            restaurant.put("brand_id", restaurantID);
             jsonBody.put("appId", APP_ID);
             jsonBody.put("appKey", APP_KEY);
-            jsonBody.put("query", query);
+            if (query != null)
+                jsonBody.put("query", query);
+            if (restaurantID != null)
+                jsonBody.put("filters", restaurant);
 
             JsonObjectRequest jsonRequest = new JsonObjectRequest(postURL, jsonBody, new Response.Listener<JSONObject>() {
                 @Override
@@ -78,10 +88,15 @@ public class NutritionixAPI {
     }
 
     //  TODO
-    //  do something with response from /search
+    //  do something with menu items from restaurant
     private void search(Search model) {
-        TextView textView = this.context.findViewById(R.id.text_id);
-        textView.setText(model.hits[0].fields.item_name);
+        for (Hit x : model.hits) {
+            print(x.fields.item_name);
+        }
+        
+        //  pass what you need in this function, then complete
+        //  this function in Restaurant activity
+        restaurantCallback.updateListView();
     }
 
     public void location(double latitude, double longitude, int distance, int limit) {
@@ -130,6 +145,6 @@ public class NutritionixAPI {
 
         //  Callback goes back to Restaurant Activity
         //  to update ListView
-        callback.updateListView(restaurants);
+        restaurantsCallback.updateListView(restaurants);
     }
 }

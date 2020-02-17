@@ -2,6 +2,8 @@ package com.example.ivanwl.specifit;
 
 import android.os.Bundle;
 
+import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
+import com.example.ivanwl.specifit.Services.Nutritionix.NutritionixAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -11,9 +13,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-public class RestaurantActivity extends AppCompatActivity {
+public class RestaurantActivity extends AppCompatActivity implements RestaurantCallback {
     private String restaurantName;
     private String restaurantID;
+    private NutritionixAPI nutritionix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +41,16 @@ public class RestaurantActivity extends AppCompatActivity {
         setTitle(restaurantName);
         TextView textView = findViewById(R.id.content);
         textView.setText("Restaurant ID: " + restaurantID);
+
+        nutritionix = new NutritionixAPI(this, null, this);
+        nutritionix.search(null, restaurantID);
+    }
+
+
+    //  TODO
+    //  Update Menu Items passed from /search
+    @Override
+    public void updateListView() {
+
     }
 }

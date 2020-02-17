@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
+import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
 import com.example.ivanwl.specifit.Services.Location.GPS;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,7 +30,7 @@ import java.util.Arrays;
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 
-public class RestaurantsActivity extends AppCompatActivity implements RestaurantCallback {
+public class RestaurantsActivity extends AppCompatActivity implements RestaurantsCallback {
     GPS gps;
     NutritionixAPI nutritionix;
 
@@ -42,7 +43,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         gps = new GPS(this, this);
-        nutritionix = new NutritionixAPI(this, this);
+        nutritionix = new NutritionixAPI(this, this, null);
     }
 
     @Override
