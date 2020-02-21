@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/title_activity_login">
+
+        </activity>
+        <activity
             android:name=".FoodActivity"
             android:label="@string/title_activity_food"
             android:parentActivityName=".RestaurantActivity"
