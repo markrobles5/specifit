@@ -44,4 +44,12 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <ListView
+        android:id="@+id/dishListview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

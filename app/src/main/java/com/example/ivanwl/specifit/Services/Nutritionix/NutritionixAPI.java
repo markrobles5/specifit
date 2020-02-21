@@ -90,13 +90,14 @@ public class NutritionixAPI {
     //  TODO
     //  do something with menu items from restaurant
     private void search(Search model) {
+        ArrayList<Hit> foodItems = new ArrayList<>();
         for (Hit x : model.hits) {
-            print(x.fields.item_name);
+            foodItems.add(x);
         }
         
         //  pass what you need in this function, then complete
         //  this function in Restaurant activity
-        restaurantCallback.updateListView();
+        restaurantCallback.updateListView(foodItems);
     }
 
     public void location(double latitude, double longitude, int distance, int limit) {
