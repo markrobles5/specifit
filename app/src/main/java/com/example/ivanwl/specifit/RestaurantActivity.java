@@ -1,5 +1,6 @@
 package com.example.ivanwl.specifit;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
@@ -31,6 +32,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                goToFoodActivity();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -44,6 +46,12 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
 
         nutritionix = new NutritionixAPI(this, null, this);
         nutritionix.search(null, restaurantID);
+    }
+
+    private void goToFoodActivity() {
+        Intent intent = new Intent(this, FoodActivity.class);
+        intent.putExtra("Food_ID", "ddee3980ba2c92b252e6a68d");
+        startActivity(intent);
     }
 
 

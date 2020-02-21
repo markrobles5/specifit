@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
 import com.example.ivanwl.specifit.R;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Food;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Foods;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Locations;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Field;
@@ -59,8 +61,14 @@ public class NutritionixAPI {
             JSONObject jsonBody = new JSONObject();
             JSONObject restaurant = new JSONObject();
             restaurant.put("brand_id", restaurantID);
+            JSONObject calories = new JSONObject();
+            calories.put("from", "200");
+            calories.put("to", "2000");
+            restaurant.put("nf_calories", calories);
             jsonBody.put("appId", APP_ID);
             jsonBody.put("appKey", APP_KEY);
+            jsonBody.put("offset", "0");
+            jsonBody.put("limit", "50");
             if (query != null)
                 jsonBody.put("query", query);
             if (restaurantID != null)
@@ -146,5 +154,48 @@ public class NutritionixAPI {
         //  Callback goes back to Restaurant Activity
         //  to update ListView
         restaurantsCallback.updateListView(restaurants);
+    }
+
+    public void food(String foodID) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("trackapi.nutritionix.com")
+                .appendPath("v2")
+                .appendPath("search")
+                .appendPath("item")
+                .appendQueryParameter("nix_item_id", foodID);
+        String getURL = builder.build().toString();
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest
+                (Request.Method.GET, getURL, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Foods model = new Foods();
+                        Gson gson = new Gson();
+                        model = gson.fromJson(response.toString(),Foods.class);
+                        food(model);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError e) {
+                        e.printStackTrace();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("x-app-id", APP_ID);
+                headers.put("x-app-key", APP_KEY);
+                return headers;
+            }
+        };
+        requestQueue.add(jsonRequest);
+    }
+
+    //  TODO
+    //  do something with nutrients for specific food
+    private void food(Foods model) {
+        print(Integer.toString(model.foods[0].nf_calories));
     }
 }

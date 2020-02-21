@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".FoodActivity"
+            android:label="@string/title_activity_food"
+            android:parentActivityName=".RestaurantActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ivanwl.specifit.RestaurantActivity" />
+        </activity>
+        <activity
             android:name=".RestaurantActivity"
             android:label="@string/title_activity_restaurant"
             android:parentActivityName=".RestaurantsActivity"
