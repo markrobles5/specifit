@@ -41,7 +41,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                goToFoodActivity();
+                //goToFoodActivity();
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,13 +53,13 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
         TextView textView = findViewById(R.id.content);
         //textView.setText("Restaurant ID: " + restaurantID);
 
-        nutritionix = new NutritionixAPI(this, null, this);
+        nutritionix = new NutritionixAPI(this, null, this, null);
         nutritionix.search(null, restaurantID);
     }
 
-    private void goToFoodActivity() {
+    private void goToFoodActivity(ArrayList<Hit> foodItems, int index) {
         Intent intent = new Intent(this, FoodActivity.class);
-        intent.putExtra("Food_ID", "ddee3980ba2c92b252e6a68d");
+        intent.putExtra("Food_ID", foodItems.get(index)._id);
         startActivity(intent);
     }
 
@@ -75,7 +75,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                print("Click");
+                goToFoodActivity(foodItems, i);
             }
         });
 

@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ivanwl.specifit.Interfaces.FoodCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
 import com.example.ivanwl.specifit.R;
@@ -47,11 +48,13 @@ public class NutritionixAPI {
     private Activity context;
     private RestaurantsCallback restaurantsCallback;
     private RestaurantCallback restaurantCallback;
+    private FoodCallback foodCallback;
 
-    public NutritionixAPI(Activity context, RestaurantsCallback restaurantsCallback, RestaurantCallback restaurantCallback) {
+    public NutritionixAPI(Activity context, RestaurantsCallback restaurantsCallback, RestaurantCallback restaurantCallback, FoodCallback foodCallback) {
         this.context = context;
         this.restaurantsCallback = restaurantsCallback;
         this.restaurantCallback = restaurantCallback;
+        this.foodCallback = foodCallback;
     }
 
     public void search(String query, String restaurantID) {
@@ -197,6 +200,9 @@ public class NutritionixAPI {
     //  TODO
     //  do something with nutrients for specific food
     private void food(Foods model) {
-        print(Integer.toString(model.foods[0].nf_calories));
+        //print(Integer.toString(model.foods[0].nf_calories));
+        foodCallback.updateTextViews(model.foods[0]);
+
+
     }
 }

@@ -43,7 +43,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         gps = new GPS(this, this);
-        nutritionix = new NutritionixAPI(this, this, null);
+        nutritionix = new NutritionixAPI(this, this, null, null);
     }
 
     @Override
