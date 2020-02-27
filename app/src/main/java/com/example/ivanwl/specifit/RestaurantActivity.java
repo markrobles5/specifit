@@ -64,7 +64,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     }
 
 
-    //  TODO
     //  Update Menu Items passed from /search
     @Override
     public void updateListView(final ArrayList<Hit> foodItems) {

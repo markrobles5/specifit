@@ -24,10 +24,6 @@ import static com.example.ivanwl.specifit.Utils.Utils.print;
 public class SettingsActivity extends AppCompatActivity {
     private Firebase firebase;
 
-    //  TODO - Change settings options
-    //  XML Location of settings options are in
-    //  /res/xml/root_preferences.xml
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        firebase = new Firebase();
+        firebase = new Firebase(null);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

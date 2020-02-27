@@ -3,9 +3,11 @@ package com.example.ivanwl.specifit;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.ivanwl.specifit.Interfaces.MainCallBack;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,11 +20,16 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainCallBack {
     private Firebase firebase;
+    //  This settings map will be passed down to child activities
+    private Map<String, Object> settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +80,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupServices() {
-        firebase = new Firebase();
+        firebase = new Firebase(this);
         firebase.retrieveSettings();
+    }
+
+    @Override
+    public void newSettings(Map<String, Object> settings) {
+        //  Values can be null
+        //  Replace old settings map with new settings map
+        this.settings = new HashMap<>(settings);
+
+        //  TODO
+        //  Settings Updated, do something in Main Activity
+        //  This is called everytime on a setting update
+        for (Map.Entry<String, Object> setting : settings.entrySet())
+            print(setting.getKey() + ": " + setting.getValue());
     }
 
     @Override

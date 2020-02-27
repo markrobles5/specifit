@@ -98,7 +98,6 @@ public class NutritionixAPI {
         }
     }
 
-    //  TODO
     //  do something with menu items from restaurant
     private void search(Search model) {
         ArrayList<Hit> foodItems = new ArrayList<>();
@@ -197,7 +196,6 @@ public class NutritionixAPI {
         requestQueue.add(jsonRequest);
     }
 
-    //  TODO
     //  do something with nutrients for specific food
     private void food(Foods model) {
         //print(Integer.toString(model.foods[0].nf_calories));
