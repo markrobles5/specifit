@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
@@ -27,6 +28,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     private String restaurantName;
     private String restaurantID;
     private NutritionixAPI nutritionix;
+    private HashMap<String, Object> settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
         Bundle extras = getIntent().getExtras();
         restaurantName = extras.getString("Restaurant_Name");
         restaurantID = extras.getString("Restaurant_ID");
+        settings = (HashMap<String, Object>) extras.getSerializable("Settings");
         setTitle(restaurantName);
         TextView textView = findViewById(R.id.content);
         //textView.setText("Restaurant ID: " + restaurantID);
@@ -60,6 +63,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     private void goToFoodActivity(ArrayList<Hit> foodItems, int index) {
         Intent intent = new Intent(this, FoodActivity.class);
         intent.putExtra("Food_ID", foodItems.get(index)._id);
+        intent.putExtra("Settings", settings);
         startActivity(intent);
     }
 

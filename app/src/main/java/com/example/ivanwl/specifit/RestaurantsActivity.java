@@ -27,12 +27,16 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 
 public class RestaurantsActivity extends AppCompatActivity implements RestaurantsCallback {
-    GPS gps;
-    NutritionixAPI nutritionix;
+    private GPS gps;
+    private NutritionixAPI nutritionix;
+    private HashMap<String, Object> settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
 
         gps = new GPS(this, this);
         nutritionix = new NutritionixAPI(this, this, null, null);
+        Bundle extras = getIntent().getExtras();
+        settings = (HashMap<String, Object>) extras.getSerializable("Settings");
     }
 
     @Override
@@ -69,6 +75,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         Intent intent = new Intent(this, RestaurantActivity.class);
         intent.putExtra("Restaurant_Name", restaurants.get(index).name);
         intent.putExtra("Restaurant_ID", restaurants.get(index).brand_id);
+        intent.putExtra("Settings", settings);
         startActivity(intent);
     }
 }

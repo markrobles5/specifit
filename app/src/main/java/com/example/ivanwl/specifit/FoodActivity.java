@@ -19,9 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FoodActivity extends AppCompatActivity implements FoodCallback {
-    NutritionixAPI nutritionix;
+    private NutritionixAPI nutritionix;
+    private HashMap<String, Object> settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class FoodActivity extends AppCompatActivity implements FoodCallback {
 
         Bundle extras = getIntent().getExtras();
         String foodID = extras.getString("Food_ID");
+        settings = (HashMap<String, Object>) extras.getSerializable("Settings");
 
         nutritionix = new NutritionixAPI(this, null, null, this);
         nutritionix.food(foodID);

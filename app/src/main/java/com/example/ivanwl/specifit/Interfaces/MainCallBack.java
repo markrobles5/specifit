@@ -1,8 +1,8 @@
 package com.example.ivanwl.specifit.Interfaces;
 
 
-import java.util.Map;
+import java.util.HashMap;
 
 public interface MainCallBack {
-    void newSettings(Map<String, Object> settings);
+    void newSettings(HashMap<String, Object> settings);
 }

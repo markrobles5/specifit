@@ -49,8 +49,7 @@ public class Firebase implements Serializable {
     }
 
     private void updateSettings(DataSnapshot dataSnapshot) {
-        print("hello");
-        Map<String, Object> settings = new HashMap<>();
+        HashMap<String, Object> settings = new HashMap<>();
         for (DataSnapshot key: dataSnapshot.getChildren())
             settings.put(key.getKey(), key.getValue());
 

@@ -29,7 +29,7 @@ import static com.example.ivanwl.specifit.Utils.Utils.print;
 public class MainActivity extends AppCompatActivity implements MainCallBack {
     private Firebase firebase;
     //  This settings map will be passed down to child activities
-    private Map<String, Object> settings;
+    private HashMap<String, Object> settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
 
     private void goToRestaurants(){
         Intent intent = new Intent(this, RestaurantsActivity.class);
+        intent.putExtra("Settings", settings);
         startActivity(intent);
     }
 
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     }
 
     @Override
-    public void newSettings(Map<String, Object> settings) {
+    public void newSettings(HashMap<String, Object> settings) {
         //  Values can be null
         //  Replace old settings map with new settings map
         this.settings = new HashMap<>(settings);
