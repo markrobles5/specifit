@@ -54,12 +54,12 @@ public class SettingsActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 super.onBackPressed();
-                print("Back Button Clicked");
                 // updates settings to map
                 SharedPreferences prefs =
                         PreferenceManager.getDefaultSharedPreferences(this);
                 //Log.i("map", prefs.getAll().toString());
                 firebase.saveSettings(mapSettings(prefs.getAll()));
+                finish();
                 return true;
         }
 

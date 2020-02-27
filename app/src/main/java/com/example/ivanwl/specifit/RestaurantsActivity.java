@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ivanwl.specifit.Services.Nutritionix.NutritionixAPI;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -77,5 +78,15 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         intent.putExtra("Restaurant_ID", restaurants.get(index).brand_id);
         intent.putExtra("Settings", settings);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
