@@ -22,6 +22,7 @@
     <string name="height">Height (in)</string>
     <string name="sex_title">Sex</string>
     <string name="activity_title">Activity Level</string>
+    <string name="goal_title">Your Goal</string>
 
     <!-- Sync Preferences -->
     <string name="title_activity_restaurants">Restaurants</string>

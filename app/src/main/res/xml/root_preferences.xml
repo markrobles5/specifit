@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/messages_header">
 
@@ -45,6 +46,13 @@
             app:entryValues="@array/activity_values"
             app:key="Activity"
             app:title="@string/activity_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:entries="@array/goal_entries"
+            app:entryValues="@array/goal_values"
+            app:key="Goal"
+            app:title="@string/goal_title"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

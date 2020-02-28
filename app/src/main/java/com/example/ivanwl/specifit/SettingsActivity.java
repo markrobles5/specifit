@@ -6,16 +6,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.google.firebase.database.core.view.Change;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import static com.example.ivanwl.specifit.Utils.Utils.print;
@@ -36,15 +40,39 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        //get a handle on preferences that require validation
         firebase = new Firebase(null);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
+        Preference.OnPreferenceChangeListener numberCheckListener = new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                //Check that the string is an integer.
+                return numberCheck(preference, newValue);
+            }
+        };
+
+        private boolean numberCheck(Object key, Object newValue) {
+            String text = newValue.toString().replace("\n","");
+            try {
+                Double.parseDouble(text);
+            } catch (NumberFormatException e) {
+                Toast toast = Toast.makeText(getContext(), "Invalid Input", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+                return false;
+            }
+            return true;
+        }
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-
-
+            //get a handle on preferences that require validation
+            getPreferenceScreen().findPreference("Height").setOnPreferenceChangeListener(numberCheckListener);
+            getPreferenceScreen().findPreference("Weight").setOnPreferenceChangeListener(numberCheckListener);
         }
     }
 
@@ -57,7 +85,12 @@ public class SettingsActivity extends AppCompatActivity {
                 // updates settings to map
                 SharedPreferences prefs =
                         PreferenceManager.getDefaultSharedPreferences(this);
-                //Log.i("map", prefs.getAll().toString());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("Height", prefs.getString("Height", "DEFAULT")
+                        .replace("\n",""));
+                editor.putString("Weight", prefs.getString("Weight", "DEFAULT")
+                        .replace("\n",""));
+                editor.apply();
                 firebase.saveSettings(mapSettings(prefs.getAll()));
                 finish();
                 return true;
