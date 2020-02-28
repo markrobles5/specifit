@@ -3,7 +3,7 @@ package com.example.ivanwl.specifit.Services.Nutritionix.Models.Food;
 public class Food {
     public String food_name;
     public String brand_name;
-    public int serving_qty;
+    public double serving_qty;
     public String serving_units;
     public int serving_weight_grams;
     public int nf_calories;
