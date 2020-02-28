@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,8 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Location> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.activity_listview, parent, false);
+        ImageView favorite = rowView.findViewById(R.id.favorite);
+        favorite.setImageResource(R.drawable.app_logo);
         TextView restaurant = rowView.findViewById(R.id.name);
         TextView distance = rowView.findViewById(R.id.distance);
         restaurant.setText(restaurants.get(position).name);
