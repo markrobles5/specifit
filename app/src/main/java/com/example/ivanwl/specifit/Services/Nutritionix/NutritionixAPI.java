@@ -37,6 +37,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
@@ -150,8 +151,12 @@ public class NutritionixAPI {
 
     private void location(Locations model) {
         ArrayList<Location> restaurants = new ArrayList<>();
+        HashSet<String> restaurantSet = new HashSet<>();
         for (Location x : model.locations) {
-            restaurants.add(x);
+            if (!restaurantSet.contains(x.name)) {
+                restaurants.add(x);
+                restaurantSet.add(x.name);
+            }
         }
 
         //  Callback goes back to Restaurant Activity
