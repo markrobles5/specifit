@@ -6,8 +6,6 @@ import android.os.Bundle;
 import com.example.ivanwl.specifit.Interfaces.MainCallBack;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     }
 
     private void setupServices() {
-        firebase = new Firebase(this);
+        firebase = new Firebase(this, null);
         firebase.retrieveSettings();
     }
 

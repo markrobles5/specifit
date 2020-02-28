@@ -1,11 +1,7 @@
 package com.example.ivanwl.specifit;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -17,12 +13,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
-import com.google.firebase.database.core.view.Change;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -41,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         //get a handle on preferences that require validation
-        firebase = new Firebase(null);
+        firebase = new Firebase(null, null);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -91,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString("Weight", prefs.getString("Weight", "DEFAULT")
                         .replace("\n",""));
                 editor.apply();
-                firebase.saveSettings(mapSettings(prefs.getAll()));
+                firebase.storeSettings(mapSettings(prefs.getAll()));
                 finish();
                 return true;
         }

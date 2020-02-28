@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
+import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.example.ivanwl.specifit.Services.Location.GPS;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +30,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import static com.example.ivanwl.specifit.Utils.Utils.print;
@@ -37,7 +39,9 @@ import static com.example.ivanwl.specifit.Utils.Utils.print;
 public class RestaurantsActivity extends AppCompatActivity implements RestaurantsCallback {
     private GPS gps;
     private NutritionixAPI nutritionix;
+    private Firebase firebase;
     private HashMap<String, Object> settings;
+    private HashSet<String> favoriteRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +51,18 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        gps = new GPS(this, this);
-        nutritionix = new NutritionixAPI(this, this, null, null);
+        favoriteRestaurants = new HashSet<>();
+        firebase = new Firebase(null, this);
+        firebase.retrieveFavoriteRestaurants();
         Bundle extras = getIntent().getExtras();
         settings = (HashMap<String, Object>) extras.getSerializable("Settings");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gps = new GPS(this, this);
+        nutritionix = new NutritionixAPI(this, this, null, null);
     }
 
     @Override
@@ -58,10 +70,23 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         nutritionix.location(lattitude, longitude, 5000, 50);
     }
 
+    //  Restaurant Comparison for sorting restaurantList
+    //  Sort by Favorites, then by distance
+    private int compareRestaurants(Location r1, Location r2) {
+        if (favoriteRestaurants.contains(r1.name) && favoriteRestaurants.contains(r2.name))
+            return Double.compare(r1.distance_km, r2.distance_km);
+        if (favoriteRestaurants.contains(r1.name))
+            return -1;
+        if (favoriteRestaurants.contains(r2.name))
+            return 1;
+        return Double.compare(r1.distance_km, r2.distance_km);
+    }
+
     @Override
     public void updateListView(final ArrayList<Location> restaurants) {
         ListView listView = findViewById(R.id.listview);
-        RestaurantArrayAdapter adapter = new RestaurantArrayAdapter(this, restaurants);
+        restaurants.sort((r1, r2) -> compareRestaurants(r1, r2));
+        RestaurantArrayAdapter adapter = new RestaurantArrayAdapter(this, restaurants, favoriteRestaurants);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,10 +97,16 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         });
     }
 
+    @Override
+    public void updateFavoriteRestaurants(HashSet<String> favoriteRestaurants) {
+        this.favoriteRestaurants = favoriteRestaurants;
+    }
+
     private void goToRestaurantActivity(ArrayList<Location> restaurants, int index) {
         Intent intent = new Intent(this, RestaurantActivity.class);
         intent.putExtra("Restaurant_Name", restaurants.get(index).name);
         intent.putExtra("Restaurant_ID", restaurants.get(index).brand_id);
+        intent.putExtra("Favorite_Restaurants", favoriteRestaurants);
         intent.putExtra("Settings", settings);
         startActivity(intent);
     }

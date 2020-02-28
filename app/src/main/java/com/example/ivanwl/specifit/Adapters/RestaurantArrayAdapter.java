@@ -16,17 +16,20 @@ import com.example.ivanwl.specifit.R;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 public class RestaurantArrayAdapter extends ArrayAdapter<Location> {
     private Context context;
     private ArrayList<Location> restaurants;
+    private HashSet<String> favoriteRestaurants;
 
-    public RestaurantArrayAdapter(Context context, ArrayList<Location> restaurants) {
+    public RestaurantArrayAdapter(Context context, ArrayList<Location> restaurants, HashSet<String> favoriteRestaurants) {
         super(context, R.layout.activity_listview, restaurants);
         this.context = context;
         this.restaurants = restaurants;
+        this.favoriteRestaurants = favoriteRestaurants;
     }
 
     @NonNull
@@ -36,7 +39,8 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Location> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.activity_listview, parent, false);
         ImageView favorite = rowView.findViewById(R.id.favorite);
-        favorite.setImageResource(R.drawable.app_logo);
+        if (favoriteRestaurants.contains(restaurants.get(position).name))
+            favorite.setImageResource(android.R.drawable.btn_star_big_on);
         TextView restaurant = rowView.findViewById(R.id.name);
         TextView distance = rowView.findViewById(R.id.distance);
         restaurant.setText(restaurants.get(position).name);
