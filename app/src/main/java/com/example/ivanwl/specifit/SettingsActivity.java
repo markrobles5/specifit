@@ -50,6 +50,10 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putString("Age", settings.get("Age").toString());
         editor.putString("Activity", settings.get("Activity").toString());
         editor.putString("Goal", settings.get("Goal").toString());
+        editor.remove("Height (in) 901");
+        editor.remove("attachment");
+        editor.remove("reply");
+        editor.remove("BirthDay");
         editor.apply();
     }
 
