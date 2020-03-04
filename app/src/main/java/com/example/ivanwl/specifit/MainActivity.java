@@ -29,12 +29,15 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     //  This settings map will be passed down to child activities
     private HashMap<String, Object> settings;
     private BMR bmr;
+    private CalorieCounter calorieCounter;
 
     @Override
     protected void onResume() {
         super.onResume();
         if(settings != null) {
             bmr.update(settings);
+            final TextView textViewToChange = findViewById(R.id.calorieCount);
+            textViewToChange.setText(Integer.toString((int)Math.rint(calorieCounter.getCalories())));
         }
     }
 
@@ -115,8 +118,11 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         if(this.settings.get("Goal") == null){
             this.settings.put("Goal", 0);
         }
-
         bmr = new BMR(settings);
+        calorieCounter = new CalorieCounter(bmr.getBMR()/7);
+        final TextView textViewToChange =
+                findViewById(R.id.calorieCount);
+        textViewToChange.setText(Integer.toString((int)Math.rint(calorieCounter.getCalories())));
     }
 
     @Override

@@ -23,6 +23,15 @@
 
     <include layout="@layout/content_main" />
 
+    <TextView
+        android:id="@+id/calorieCount"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/calorie_count"
+        android:visibility="visible"
+        app:autoSizeTextType="uniform" />
+
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="@android:dimen/thumbnail_height"

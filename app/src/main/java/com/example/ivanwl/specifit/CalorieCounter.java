@@ -2,20 +2,23 @@ package com.example.ivanwl.specifit;
 
 public class CalorieCounter {
     private double calories;
+    private double consumed;
 
     public CalorieCounter(double cal) {
         calories = cal;
+        consumed = 0;
     }
-    public double removeCalories(double cal) {
-        calories -= cal;
-        return calories;
+    public void removeCalories(double cal) {
+        consumed += cal;
     }
     public double getCalories(){
-        return calories;
+        return calories - consumed;
     }
-    public double setCalories(double cal){
+    public double getConsumed(){
+        return consumed;
+    }
+    public void updateCalories(double cal){
         calories = cal;
-        return calories;
     }
 
 }
