@@ -40,7 +40,7 @@ public class Firebase implements Serializable {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.mainCallBack = mainCallBack;
         this.restaurantsCallback = restaurantsCallback;
-        settingsRef = database.getReference("Settings");
+        settingsRef = database.getReference(username).child("Settings");
         favoriteRestaurantsRef = database.getReference(username).child("favoriteRestaurants");
         mealsRef = database.getReference(username).child("meals");
     }

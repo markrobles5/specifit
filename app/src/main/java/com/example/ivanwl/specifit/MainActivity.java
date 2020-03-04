@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
             this.settings.put("sex", "female");
         }
         if(this.settings.get("Activity") == null){
-            this.settings.put("Height", 1);
+            this.settings.put("Activity", 1.2);
         }
-        if(settings.get("Goal") == null){
-            settings.put("Goal", 0);
+        if(this.settings.get("Goal") == null){
+            this.settings.put("Goal", 0);
         }
 
         bmr = new BMR(settings);
