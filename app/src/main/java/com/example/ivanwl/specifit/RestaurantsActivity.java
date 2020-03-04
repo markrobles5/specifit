@@ -52,7 +52,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         favoriteRestaurants = new HashSet<>();
-        firebase = new Firebase(null, this);
+        firebase = new Firebase(null, this, null);
         firebase.retrieveFavoriteRestaurants();
         Bundle extras = getIntent().getExtras();
         settings = (HashMap<String, Object>) extras.getSerializable("Settings");

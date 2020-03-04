@@ -1,15 +1,13 @@
 package com.example.ivanwl.specifit;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ivanwl.specifit.Adapters.DishArrayAdapter;
-import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
+import com.example.ivanwl.specifit.Services.Firebase.Models.Dish;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Food;
-import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Foods;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Hit;
 import com.example.ivanwl.specifit.Services.Nutritionix.NutritionixAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,13 +23,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import static com.example.ivanwl.specifit.Utils.Utils.print;
 
@@ -86,7 +85,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
 
         nutritionix = new NutritionixAPI(this, null, this, null);
         nutritionix.search(null, restaurantID);
-        firebase = new Firebase(null, null);
+        firebase = new Firebase(null, null, this);
+        firebase.retrieveMeals();
     }
 
     private void goToFoodActivity(ArrayList<Hit> foodItems, int index) {
@@ -171,6 +171,15 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     @Override
     public void storeMeal(ArrayList<Food> meal) {
         firebase.storeMeal(meal);
+    }
+
+    @Override
+    public void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals) {
+        for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
+            for (Dish dish : meal.getValue()) {
+                print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);
+            }
+        }
     }
 
     @Override

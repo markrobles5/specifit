@@ -2,27 +2,30 @@ package com.example.ivanwl.specifit.Services.Firebase;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
+
 import com.example.ivanwl.specifit.Interfaces.MainCallBack;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
+import com.example.ivanwl.specifit.Services.Firebase.Models.Dish;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Food;
-import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Foods;
-import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Hit;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
-
-import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 public class Firebase implements Serializable {
     private Activity context;
@@ -34,12 +37,14 @@ public class Firebase implements Serializable {
     private String username;
     private DatabaseReference mealsRef;
     private HashMap<String, Object> meals;
+    private RestaurantCallback restaurantCallback;
 
-    public Firebase(MainCallBack mainCallBack, RestaurantsCallback restaurantsCallback) {
+    public Firebase(MainCallBack mainCallBack, RestaurantsCallback restaurantsCallback, RestaurantCallback restaurantCallback) {
         this.username = "user1";
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.mainCallBack = mainCallBack;
         this.restaurantsCallback = restaurantsCallback;
+        this.restaurantCallback = restaurantCallback;
         settingsRef = database.getReference(username).child("Settings");
         favoriteRestaurantsRef = database.getReference(username).child("favoriteRestaurants");
         mealsRef = database.getReference(username).child("meals");
@@ -112,5 +117,31 @@ public class Firebase implements Serializable {
             newMeal.add(newFood);
         }
         currentMealRef.setValue(newMeal);
+    }
+
+    public void retrieveMeals() {
+        mealsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<Date, ArrayList<Dish>> meals = new HashMap<>();
+                GenericTypeIndicator<ArrayList<Dish>> t = new GenericTypeIndicator<ArrayList<Dish>>() {};
+                for (DataSnapshot meal : dataSnapshot.getChildren()) {
+                    Calendar date = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+                    try {
+                        date.setTime(sdf.parse(meal.getKey()));// all done
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    meals.put(date.getTime(), meal.getValue(t));
+                }
+                restaurantCallback.retrieveMeals(meals);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         settings = (HashMap<String, Object>) bundle.getSerializable("Settings");
         //get a handle on preferences that require validation
-        firebase = new Firebase(null, null);
+        firebase = new Firebase(null, null, null);
 
         SharedPreferences prefs =
                 PreferenceManager.getDefaultSharedPreferences(this);

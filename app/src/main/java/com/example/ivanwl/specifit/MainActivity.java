@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     }
 
     private void setupServices() {
-        firebase = new Firebase(this, null);
+        firebase = new Firebase(this, null, null);
         firebase.retrieveSettings();
     }
 
