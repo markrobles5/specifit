@@ -205,7 +205,51 @@ public class NutritionixAPI {
     private void food(Foods model) {
         //print(Integer.toString(model.foods[0].nf_calories));
         foodCallback.updateTextViews(model.foods[0]);
+    }
 
+    public void foods(ArrayList<String> foodIDs) {
+        ArrayList<Food> foodsList = new ArrayList<>();
+        for (String foodID : foodIDs) {
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            Uri.Builder builder = new Uri.Builder();
+            builder.scheme("https")
+                    .authority("trackapi.nutritionix.com")
+                    .appendPath("v2")
+                    .appendPath("search")
+                    .appendPath("item")
+                    .appendQueryParameter("nix_item_id", foodID);
+            String getURL = builder.build().toString();
 
+            JsonObjectRequest jsonRequest = new JsonObjectRequest
+                    (Request.Method.GET, getURL, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Foods model = new Foods();
+                            Gson gson = new Gson();
+                            model = gson.fromJson(response.toString(), Foods.class);
+                            foodsList.add(model.foods[0]);
+                            if (foodsList.size() == foodIDs.size())
+                                meal(foodsList);
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError e) {
+                            e.printStackTrace();
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("x-app-id", APP_ID);
+                    headers.put("x-app-key", APP_KEY);
+                    return headers;
+                }
+            };
+            requestQueue.add(jsonRequest);
+        }
+    }
+
+    private void meal(ArrayList<Food> foodsList) {
+        restaurantCallback.storeMeal(foodsList);
     }
 }

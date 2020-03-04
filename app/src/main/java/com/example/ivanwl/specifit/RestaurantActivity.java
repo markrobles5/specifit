@@ -8,6 +8,8 @@ import com.example.ivanwl.specifit.Adapters.DishArrayAdapter;
 import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Food;
+import com.example.ivanwl.specifit.Services.Nutritionix.Models.Food.Foods;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Search.Hit;
 import com.example.ivanwl.specifit.Services.Nutritionix.NutritionixAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -150,6 +152,10 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
             public void onDestroyActionMode(ActionMode mode) {
                 // Here you can make any necessary updates to the activity when
                 // the CAB is removed. By default, selected items are deselected/unchecked.
+                ArrayList<String> foodIDs = new ArrayList<>();
+                for (Hit dish: selectedFoodItems)
+                    foodIDs.add(dish.fields.item_id);
+                nutritionix.foods(foodIDs);
                 selectedFoodItems.clear();
             }
 
@@ -160,6 +166,11 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
                 return false;
             }
         });
+    }
+
+    @Override
+    public void storeMeal(ArrayList<Food> meal) {
+        firebase.storeMeal(meal);
     }
 
     @Override
