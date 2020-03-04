@@ -17,9 +17,12 @@ import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.ivanwl.specifit.Utils.Utils.print;
+
 
 public class SettingsActivity extends AppCompatActivity {
     private Firebase firebase;
+    private HashMap<String, Object> settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,21 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        Bundle bundle = getIntent().getExtras();
+        settings = (HashMap<String, Object>) bundle.getSerializable("Settings");
         //get a handle on preferences that require validation
         firebase = new Firebase(null, null);
+        
+        SharedPreferences prefs =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("Height", settings.get("Height").toString());
+        editor.putString("Weight", settings.get("Weight").toString());
+        editor.putString("sex", settings.get("sex").toString());
+        editor.putString("BirthDay", settings.get("BirthDay").toString());
+        editor.putString("Activity", settings.get("Activity").toString());
+        editor.putString("Goal", settings.get("Goal").toString());
+        editor.apply();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
@@ -65,6 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             //get a handle on preferences that require validation
             getPreferenceScreen().findPreference("Height").setOnPreferenceChangeListener(numberCheckListener);
+            //getPreferenceScreen().findPreference("Height").setDefaultValue();
             getPreferenceScreen().findPreference("Weight").setOnPreferenceChangeListener(numberCheckListener);
         }
     }

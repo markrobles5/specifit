@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         if (id == R.id.action_settings) {
             //  Build Intent and go to Settings Activity
             Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("Settings", settings);
             startActivity(intent);
             return true;
         }
