@@ -27,22 +27,22 @@
     </string-array>
 
     <string-array name="goal_entries">
+        <item>Extreme weight gain 2 lb per week</item>
+        <item>Weight gain 1 lb per week</item>
+        <item>Mild weight gain 0.5 lb per week</item>
         <item>Maintain weight</item>
         <item>Mild weight loss of 0.5 lb per week</item>
         <item>Weight loss of 1 lb per week</item>
         <item>Extreme weight loss of 2 lb per week</item>
-        <item>Mild weight gain 0.5 lb per week</item>
-        <item>Weight gain 1 lb per week</item>
-        <item>Extreme weight gain 2 lb per week</item>
     </string-array>
 
     <string-array name="goal_values">
+        <item>2</item>
+        <item>1</item>
+        <item>0.5</item>
         <item>0</item>
         <item>-0.5</item>
         <item>-1</item>
         <item>-2</item>
-        <item>0.5</item>
-        <item>1</item>
-        <item>2</item>
     </string-array>
 </resources>

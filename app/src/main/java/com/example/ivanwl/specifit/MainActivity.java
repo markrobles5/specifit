@@ -90,13 +90,13 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         //  Replace old settings map with new settings map
         this.settings = new HashMap<>(settings);
         if(this.settings.get("Height") == null){
-            this.settings.put("Height", 0.0);
+            this.settings.put("Height", 0);
         }
         if(this.settings.get("Weight") == null){
-            this.settings.put("Weight", 0.0);
+            this.settings.put("Weight", 0);
         }
         if(this.settings.get("Age") == null){
-            this.settings.put("Age", 0);
+            this.settings.put("Age", 0.0);
         }
         if(this.settings.get("sex") == null){
             this.settings.put("sex", "female");
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
             this.settings.put("Height", 1);
         }
         if(settings.get("Goal") == null){
-            settings.put("Goal", 0.0);
+            settings.put("Goal", 0);
         }
 
         bmr = new BMR(settings);
