@@ -40,14 +40,14 @@ public class SettingsActivity extends AppCompatActivity {
         settings = (HashMap<String, Object>) bundle.getSerializable("Settings");
         //get a handle on preferences that require validation
         firebase = new Firebase(null, null);
-        
+
         SharedPreferences prefs =
                 PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("Height", settings.get("Height").toString());
         editor.putString("Weight", settings.get("Weight").toString());
         editor.putString("sex", settings.get("sex").toString());
-        editor.putString("BirthDay", settings.get("BirthDay").toString());
+        editor.putString("Age", settings.get("Age").toString());
         editor.putString("Activity", settings.get("Activity").toString());
         editor.putString("Goal", settings.get("Goal").toString());
         editor.apply();

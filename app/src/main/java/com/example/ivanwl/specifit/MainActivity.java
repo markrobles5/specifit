@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private Firebase firebase;
     //  This settings map will be passed down to child activities
     private HashMap<String, Object> settings;
+    private BMR bmr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +89,27 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         //  Values can be null
         //  Replace old settings map with new settings map
         this.settings = new HashMap<>(settings);
+        if(this.settings.get("Height") == null){
+            this.settings.put("Height", 0.0);
+        }
+        if(this.settings.get("Weight") == null){
+            this.settings.put("Weight", 0.0);
+        }
+        if(this.settings.get("Age") == null){
+            this.settings.put("Age", 0);
+        }
+        if(this.settings.get("sex") == null){
+            this.settings.put("sex", "female");
+        }
+        if(this.settings.get("Activity") == null){
+            this.settings.put("Height", 1);
+        }
+        if(settings.get("Goal") == null){
+            settings.put("Goal", 0.0);
+        }
 
-        //  TODO
-        //  Settings Updated, do something in Main Activity
-        //  This is called everytime on a setting update
-        for (Map.Entry<String, Object> setting : settings.entrySet())
-            print(setting.getKey() + ": " + setting.getValue());
+        bmr = new BMR(settings);
+        print("BMR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:" + bmr.getBMR());
     }
 
     @Override

@@ -27,8 +27,8 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            app:key="BirthDay"
-            app:title="@string/birthday"
+            app:key="Age"
+            app:title="@string/age"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference

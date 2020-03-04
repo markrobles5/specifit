@@ -17,7 +17,7 @@
     <string name="messages_header">Enter the information below</string>
 
     <!-- Messages Preferences -->
-    <string name="birthday">Birthday</string>
+    <string name="age">Age</string>
     <string name="body_weight">Weight (lbs)</string>
     <string name="height">Height (in)</string>
     <string name="sex_title">Sex</string>

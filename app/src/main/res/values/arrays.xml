@@ -19,11 +19,11 @@
     </string-array>
 
     <string-array name="activity_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>1.2</item>
+        <item>1.375</item>
+        <item>1.55</item>
+        <item>1.725</item>
+        <item>1.9</item>
     </string-array>
 
     <string-array name="goal_entries">
