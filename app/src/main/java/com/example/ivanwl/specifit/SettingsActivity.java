@@ -54,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.remove("attachment");
         editor.remove("reply");
         editor.remove("BirthDay");
+        editor.remove("sync");
         editor.apply();
     }
 
