@@ -31,6 +31,14 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private BMR bmr;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(settings != null) {
+            bmr.update(settings);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -109,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         }
 
         bmr = new BMR(settings);
-        print("BMR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:" + bmr.getBMR());
     }
 
     @Override

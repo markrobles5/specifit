@@ -56,13 +56,13 @@ public class FoodActivity extends AppCompatActivity implements FoodCallback {
         TextView foodName = findViewById(R.id.foodName);
         foodName.setText(food.food_name);
         TextView servingSize = findViewById(R.id.servingSize);
-        servingSize.setText("Serving size: " + food.serving_qty + food.serving_units + " (" + food.serving_weight_grams + " grams)");
+        servingSize.setText("Serving size: " + Math.round(food.serving_qty) + " units" + " (" + Math.round(food.serving_weight_grams) + " grams)");
         TextView calories = findViewById(R.id.calories);
         calories.setText("Calories: " + food.nf_calories);
         TextView fat = findViewById(R.id.fat);
-        fat.setText("Fat: " + Double.toString(food.nf_total_fat));
+        fat.setText("Fat: " + food.nf_total_fat);
         TextView cholesterol = findViewById(R.id.cholesterol);
-        cholesterol.setText("Cholesterol: " + Double.toString(food.nf_cholesterol));
+        cholesterol.setText("Cholesterol: " + food.nf_cholesterol);
         TextView sodium = findViewById(R.id.sodium);
         sodium.setText("Sodium: " + food.nf_sodium);
         TextView carbs = findViewById(R.id.carbs);
