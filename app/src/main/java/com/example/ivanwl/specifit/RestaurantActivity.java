@@ -41,6 +41,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     private Firebase firebase;
     private HashMap<String, Object> settings;
     private HashSet<String> favoriteRestaurants;
+    private HashSet<Hit> selectedItems = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     @Override
     public void updateListView(final ArrayList<Hit> foodItems) {
         ListView listView = findViewById(R.id.dishListview);
-        DishArrayAdapter adapter = new DishArrayAdapter(this, foodItems);
+        DishArrayAdapter adapter = new DishArrayAdapter(this, foodItems, selectedItems);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,10 +120,16 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
                                                   long id, boolean checked) {
                 // Here you can do something when items are selected/de-selected,
                 // such as update the title in the CAB
-                if (checked)
+                if (checked) {
                     selectedFoodItems.add(foodItems.get(position));
-                else
+                    selectedItems.add(foodItems.get(position));
+                    adapter.notifyDataSetChanged();
+                }
+                else {
                     selectedFoodItems.remove(foodItems.get(position));
+                    selectedItems.remove(foodItems.get(position));
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -132,6 +139,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
                     case R.id.action_add:
                         for (Hit dish: selectedFoodItems)
                             print(dish.fields.item_name);
+                        selectedItems.clear();
                         mode.finish(); // Action picked, so close the CAB
                         return true;
                     default:
@@ -157,6 +165,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
                     foodIDs.add(dish.fields.item_id);
                 nutritionix.foods(foodIDs);
                 selectedFoodItems.clear();
+                selectedItems.clear();
             }
 
             @Override
