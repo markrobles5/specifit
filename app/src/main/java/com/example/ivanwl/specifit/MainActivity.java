@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     //  This settings map will be passed down to child activities
     private HashMap<String, Object> settings;
     private BMR bmr;
-    private CalorieCounter calorieCounter;
+//    private CalorieCounter calorieCounter;
 
     @Override
     protected void onResume() {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         if(settings != null) {
             bmr.update(settings);
             final TextView textViewToChange = findViewById(R.id.calorieCount);
-            textViewToChange.setText(Integer.toString((int)Math.rint(calorieCounter.getCalories())));
+            textViewToChange.setText(Integer.toString((int)Math.rint(((CalorieCounter) this.getApplication()).getCaloriesRemaining())));
         }
     }
 
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ((CalorieCounter) this.getApplication()).getCaloriesRemaining();
         // Drop down menu to select diets. Can be copied and modified to be used for other needs.
         Spinner mySpinner = findViewById(R.id.spinner1);
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(MainActivity.this,
@@ -119,10 +120,10 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
             this.settings.put("Goal", 0);
         }
         bmr = new BMR(settings);
-        calorieCounter = new CalorieCounter(bmr.getBMR()/7);
+        ((CalorieCounter) this.getApplication()).setCalories(bmr.getBMR());
         final TextView textViewToChange =
                 findViewById(R.id.calorieCount);
-        textViewToChange.setText(Integer.toString((int)Math.rint(calorieCounter.getCalories())));
+        textViewToChange.setText(Integer.toString((int)Math.rint(((CalorieCounter) this.getApplication()).getCaloriesRemaining())));
     }
 
     @Override

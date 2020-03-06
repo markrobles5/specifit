@@ -1,24 +1,26 @@
 package com.example.ivanwl.specifit;
 
-public class CalorieCounter {
-    private double calories;
-    private double consumed;
+import android.app.Application;
 
-    public CalorieCounter(double cal) {
-        calories = cal;
-        consumed = 0;
-    }
-    public void removeCalories(double cal) {
+public class CalorieCounter extends Application {
+    private double calories = 0;
+    private double consumed = 0;
+
+    public void consumeCalories(double cal) {
         consumed += cal;
     }
-    public double getCalories(){
+    public double getTotalCalories(){return calories;}
+    public double getCaloriesRemaining(){
         return calories - consumed;
     }
     public double getConsumed(){
         return consumed;
     }
-    public void updateCalories(double cal){
+    public void setCalories(double cal){
         calories = cal;
+    }
+    public void setConsumed(double cal){
+        consumed = cal;
     }
 
 }

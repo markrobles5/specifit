@@ -137,8 +137,10 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
                 // Respond to clicks on the actions in the CAB
                 switch (item.getItemId()) {
                     case R.id.action_add:
-                        for (Hit dish: selectedFoodItems)
+                        for (Hit dish: selectedFoodItems){
                             print(dish.fields.item_name);
+                            ((CalorieCounter) getApplication()).consumeCalories(100);
+                        }
                         selectedItems.clear();
                         mode.finish(); // Action picked, so close the CAB
                         return true;
