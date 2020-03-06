@@ -24,10 +24,23 @@
     <include layout="@layout/content_main" />
 
     <TextView
+        android:id="@+id/calorieCountText"
+        android:layout_width="310dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="50dp"
+        android:text="Calories Remaining Today:"
+        android:textColor="#3db9cc"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        android:visibility="visible"
+        app:autoSizeTextType="uniform" />
+
+    <TextView
         android:id="@+id/calorieCount"
         android:layout_width="310dp"
         android:layout_height="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:layout_marginLeft="50dp"
         android:text="@string/calorie_count"
         android:textAlignment="center"

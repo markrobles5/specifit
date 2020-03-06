@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        final TextView textView = findViewById(R.id.text_id);
+        //final TextView textView = findViewById(R.id.text_id);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
