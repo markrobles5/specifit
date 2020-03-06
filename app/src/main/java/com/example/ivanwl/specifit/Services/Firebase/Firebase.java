@@ -106,8 +106,7 @@ public class Firebase implements Serializable {
         restaurantsCallback.updateFavoriteRestaurants(favoriteRestaurants);
     }
 
-    public void storeMeal(ArrayList<Food> meal) {
-        Date time = Calendar.getInstance().getTime();
+    public void storeMeal(ArrayList<Food> meal, Date time) {
         DatabaseReference currentMealRef = mealsRef.child(time.toString());
         ArrayList<HashMap<String, Object>> newMeal = new ArrayList<>();
         for (Food food : meal) {

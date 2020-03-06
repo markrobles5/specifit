@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +43,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     private HashMap<String, Object> settings;
     private HashSet<String> favoriteRestaurants;
     private HashSet<Hit> selectedItems = new HashSet<>();
+    private Date dateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +141,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
                     case R.id.action_add:
                         for (Hit dish: selectedFoodItems){
                             print(dish.fields.item_name);
-                            ((CalorieCounter) getApplication()).consumeCalories(100);
                         }
                         selectedItems.clear();
                         mode.finish(); // Action picked, so close the CAB
@@ -181,7 +182,8 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
 
     @Override
     public void storeMeal(ArrayList<Food> meal) {
-        firebase.storeMeal(meal);
+        this.dateTime = Calendar.getInstance().getTime();
+        firebase.storeMeal(meal, this.dateTime);
     }
 
     @Override
@@ -189,6 +191,9 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
         for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
             for (Dish dish : meal.getValue()) {
                 print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);
+                if (this.dateTime != null && this.dateTime.equals(meal.getKey())){
+                    ((CalorieCounter) getApplication()).consumeCalories(dish.calories);
+                }
             }
         }
     }
