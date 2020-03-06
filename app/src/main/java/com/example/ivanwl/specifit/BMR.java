@@ -19,6 +19,8 @@ public class BMR {
             bmr = 66 + (6.3 * Double.valueOf(this.settings.get("Weight").toString())) + (12.9 * Double.valueOf(this.settings.get("Height").toString())) - (6.8 * Double.valueOf(this.settings.get("Age").toString()));
         }
         bmr *= Double.valueOf(this.settings.get("Activity").toString());
+
+        bmr += 3500 / 7 * Double.valueOf(this.settings.get("Goal").toString());
         return bmr;
     }
 
