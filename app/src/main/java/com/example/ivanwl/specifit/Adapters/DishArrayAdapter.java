@@ -41,6 +41,8 @@ public class DishArrayAdapter extends ArrayAdapter<Hit> {
         ImageView x = rowView.findViewById(R.id.favorite);
         if (selectedItems.contains(foodItems.get(position)))
             x.setImageResource(android.R.drawable.checkbox_on_background);
+        else
+            x.setImageResource(android.R.drawable.checkbox_off_background);
         restaurant.setText(foodItems.get(position).fields.item_name);
         return rowView;
     }

@@ -14,6 +14,4 @@ public interface RestaurantCallback {
     void updateListView(final ArrayList<Hit> restaurants);
 
     void storeMeal(ArrayList<Food> meal);
-
-    void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals);
 }

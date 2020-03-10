@@ -89,7 +89,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
         nutritionix = new NutritionixAPI(this, null, this, null);
         nutritionix.search(null, restaurantID);
         firebase = new Firebase(null, null, this);
-        firebase.retrieveMeals();
     }
 
     private void goToFoodActivity(ArrayList<Hit> foodItems, int index) {
@@ -184,19 +183,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     public void storeMeal(ArrayList<Food> meal) {
         this.dateTime = Calendar.getInstance().getTime();
         firebase.storeMeal(meal, this.dateTime);
-    }
-
-    @Override
-    public void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals) {
-        ((CalorieCounter) getApplication()).setConsumed(0.0);
-        for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
-            for (Dish dish : meal.getValue()) {
-                if (this.dateTime != null && this.dateTime.getDate() == meal.getKey().getDate()){
-                    print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);
-                    ((CalorieCounter) getApplication()).consumeCalories(dish.calories);
-                }
-            }
-        }
     }
 
     @Override

@@ -134,7 +134,7 @@ public class Firebase implements Serializable {
                     }
                     meals.put(date.getTime(), meal.getValue(t));
                 }
-                restaurantCallback.retrieveMeals(meals);
+                mainCallBack.retrieveMeals(meals);
             }
 
             @Override

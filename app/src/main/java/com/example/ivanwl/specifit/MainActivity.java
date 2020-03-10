@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.ivanwl.specifit.Interfaces.MainCallBack;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
+import com.example.ivanwl.specifit.Services.Firebase.Models.Dish;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,10 @@ import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.time.DateTimeException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     //  This settings map will be passed down to child activities
     private HashMap<String, Object> settings;
     private BMR bmr;
+    private Date dateTime;
 //    private CalorieCounter calorieCounter;
 
     @Override
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
             }
         });
 
+        this.dateTime = Calendar.getInstance().getTime();
         setupServices();
     }
 
@@ -94,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private void setupServices() {
         firebase = new Firebase(this, null, null);
         firebase.retrieveSettings();
+        firebase.retrieveMeals();
     }
 
     @Override
@@ -150,5 +158,19 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals) {
+        ((CalorieCounter) getApplication()).setConsumed(0.0);
+        for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
+            for (Dish dish : meal.getValue()) {
+                if (this.dateTime != null && this.dateTime.getDate() == meal.getKey().getDate()){
+                    // make a listview of meals
+                    print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);
+                    ((CalorieCounter) getApplication()).consumeCalories(dish.calories);
+                }
+            }
+        }
     }
 }
