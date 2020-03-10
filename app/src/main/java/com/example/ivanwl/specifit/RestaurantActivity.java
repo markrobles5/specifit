@@ -188,15 +188,10 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
 
     @Override
     public void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals) {
+        ((CalorieCounter) getApplication()).setConsumed(0.0);
         for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
             for (Dish dish : meal.getValue()) {
-                print(dish.toString());
-                if(this.dateTime != null){
-                    //print(this.dateTime.toString());
-                    //print(meal.getKey().toString());
-                    //print(Boolean.toString(this.dateTime.toString().equals(meal.getKey().toString())));
-                }
-                if (this.dateTime != null && this.dateTime.toString().equals(meal.getKey().toString())){
+                if (this.dateTime != null && this.dateTime.getDate() == meal.getKey().getDate()){
                     print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);
                     ((CalorieCounter) getApplication()).consumeCalories(dish.calories);
                 }
