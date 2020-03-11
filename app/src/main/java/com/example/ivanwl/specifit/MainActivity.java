@@ -9,6 +9,7 @@ import com.example.ivanwl.specifit.Interfaces.MainCallBack;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.example.ivanwl.specifit.Services.Firebase.Models.Dish;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         //  Replace old settings map with new settings map
         this.settings = new HashMap<>(settings);
         if(this.settings.get("Height") == null){
+            Snackbar.make(this.findViewById(android.R.id.content), "Update your settings in the triple dots", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
             this.settings.put("Height", 0);
         }
         if(this.settings.get("Weight") == null){
