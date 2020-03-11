@@ -24,12 +24,14 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Location> {
     private Context context;
     private ArrayList<Location> restaurants;
     private HashSet<String> favoriteRestaurants;
+    private HashSet<String> visitedRestaurants;
 
-    public RestaurantArrayAdapter(Context context, ArrayList<Location> restaurants, HashSet<String> favoriteRestaurants) {
+    public RestaurantArrayAdapter(Context context, ArrayList<Location> restaurants, HashSet<String> favoriteRestaurants, HashSet<String> visitedRestaurants) {
         super(context, R.layout.activity_listview, restaurants);
         this.context = context;
         this.restaurants = restaurants;
         this.favoriteRestaurants = favoriteRestaurants;
+        this.visitedRestaurants = visitedRestaurants;
     }
 
     @NonNull
@@ -39,6 +41,8 @@ public class RestaurantArrayAdapter extends ArrayAdapter<Location> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.activity_listview, parent, false);
         ImageView favorite = rowView.findViewById(R.id.favorite);
+        if (visitedRestaurants.contains(restaurants.get(position).name))
+            favorite.setImageResource(android.R.drawable.star_big_off);
         if (favoriteRestaurants.contains(restaurants.get(position).name))
             favorite.setImageResource(android.R.drawable.btn_star_big_on);
         TextView restaurant = rowView.findViewById(R.id.name);

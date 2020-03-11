@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private void goToRestaurants(){
         Intent intent = new Intent(this, RestaurantsActivity.class);
         intent.putExtra("Settings", settings);
+        intent.putExtra("mealsEaten", mealsEaten);
         startActivity(intent);
     }
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         if(this.settings.get("Goal") == null){
             this.settings.put("Goal", 0);
         }
-        bmr = new BMR(settings);
+        bmr = new BMR(this.settings);
         ((CalorieCounter) this.getApplication()).setCalories(bmr.getBMR());
         final TextView textViewToChange =
                 findViewById(R.id.calorieCount);

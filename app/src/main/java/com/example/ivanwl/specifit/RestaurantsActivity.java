@@ -7,6 +7,7 @@ import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
+import com.example.ivanwl.specifit.Services.Firebase.Models.Dish;
 import com.example.ivanwl.specifit.Services.Location.GPS;
 import com.example.ivanwl.specifit.Services.Nutritionix.Models.Location.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,6 +43,8 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     private Firebase firebase;
     private HashMap<String, Object> settings;
     private HashSet<String> favoriteRestaurants;
+    private ArrayList<Dish> mealsEaten;
+    private HashSet<String> visitedRestaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +55,15 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         favoriteRestaurants = new HashSet<>();
+        visitedRestaurants = new HashSet<>();
         firebase = new Firebase(null, this, null);
         firebase.retrieveFavoriteRestaurants();
         Bundle extras = getIntent().getExtras();
         settings = (HashMap<String, Object>) extras.getSerializable("Settings");
+        mealsEaten = (ArrayList<Dish>) extras.getSerializable("mealsEaten");
+        for (Dish dish : mealsEaten){
+            visitedRestaurants.add(dish.restaurant);
+        }
     }
 
     @Override
@@ -79,6 +87,12 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
             return -1;
         if (favoriteRestaurants.contains(r2.name))
             return 1;
+        if (visitedRestaurants.contains(r1.name) && visitedRestaurants.contains(r2.name))
+            return Double.compare(r1.distance_km, r2.distance_km);
+        if (visitedRestaurants.contains(r1.name))
+            return -1;
+        if (visitedRestaurants.contains(r2.name))
+            return 1;
         return Double.compare(r1.distance_km, r2.distance_km);
     }
 
@@ -86,7 +100,7 @@ public class RestaurantsActivity extends AppCompatActivity implements Restaurant
     public void updateListView(final ArrayList<Location> restaurants) {
         ListView listView = findViewById(R.id.listview);
         restaurants.sort((r1, r2) -> compareRestaurants(r1, r2));
-        RestaurantArrayAdapter adapter = new RestaurantArrayAdapter(this, restaurants, favoriteRestaurants);
+        RestaurantArrayAdapter adapter = new RestaurantArrayAdapter(this, restaurants, favoriteRestaurants, visitedRestaurants);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

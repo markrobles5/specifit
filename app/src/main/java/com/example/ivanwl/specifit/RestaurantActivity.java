@@ -185,7 +185,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     @Override
     public void storeMeal(ArrayList<Food> meal) {
         this.dateTime = Calendar.getInstance().getTime();
-        firebase.storeMeal(meal, this.dateTime);
+        firebase.storeMeal(meal, this.dateTime, restaurantName);
     }
 
     @Override
