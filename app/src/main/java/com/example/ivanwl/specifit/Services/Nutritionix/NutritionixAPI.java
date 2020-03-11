@@ -73,6 +73,10 @@ public class NutritionixAPI {
             calories.put("from", "200");
             calories.put("to", Double.toString(caloriesRemaining));
             restaurant.put("nf_calories", calories);
+            JSONObject sort = new JSONObject();
+            sort.put("field", "nf_calories");
+            sort.put("order", "desc");
+            jsonBody.put("sort", sort);
             jsonBody.put("appId", APP_ID);
             jsonBody.put("appKey", APP_KEY);
             jsonBody.put("offset", "0");
