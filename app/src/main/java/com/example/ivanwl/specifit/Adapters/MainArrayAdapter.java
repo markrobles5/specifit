@@ -36,7 +36,7 @@ public class MainArrayAdapter extends ArrayAdapter<Dish> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.activity_listview, parent, false);
+        View rowView = inflater.inflate(R.layout.activity_listview2, parent, false);
         TextView restaurant = rowView.findViewById(R.id.name);
         TextView distance = rowView.findViewById(R.id.distance);
         restaurant.setText(restaurants.get(position).name);
