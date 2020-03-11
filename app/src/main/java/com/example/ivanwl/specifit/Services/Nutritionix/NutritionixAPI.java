@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ivanwl.specifit.CalorieCounter;
 import com.example.ivanwl.specifit.Interfaces.FoodCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantCallback;
 import com.example.ivanwl.specifit.Interfaces.RestaurantsCallback;
@@ -61,6 +62,7 @@ public class NutritionixAPI {
     }
 
     public void search(String query, String restaurantID) {
+        double caloriesRemaining = ((CalorieCounter) context.getApplication()).getCaloriesRemaining();
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             String postURL = "https://api.nutritionix.com/v1_1/search";
@@ -69,7 +71,7 @@ public class NutritionixAPI {
             restaurant.put("brand_id", restaurantID);
             JSONObject calories = new JSONObject();
             calories.put("from", "200");
-            calories.put("to", "2000");
+            calories.put("to", Double.toString(caloriesRemaining));
             restaurant.put("nf_calories", calories);
             jsonBody.put("appId", APP_ID);
             jsonBody.put("appKey", APP_KEY);

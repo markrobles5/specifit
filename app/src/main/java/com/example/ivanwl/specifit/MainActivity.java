@@ -3,6 +3,8 @@ package com.example.ivanwl.specifit;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.ivanwl.specifit.Adapters.MainArrayAdapter;
+import com.example.ivanwl.specifit.Adapters.RestaurantArrayAdapter;
 import com.example.ivanwl.specifit.Interfaces.MainCallBack;
 import com.example.ivanwl.specifit.Services.Firebase.Firebase;
 import com.example.ivanwl.specifit.Services.Firebase.Models.Dish;
@@ -14,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.Menu;
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private HashMap<String, Object> settings;
     private BMR bmr;
     private Date dateTime;
-//    private CalorieCounter calorieCounter;
+    private ArrayList<Dish> mealsEaten;
 
     @Override
     protected void onResume() {
@@ -52,25 +55,6 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ((CalorieCounter) this.getApplication()).getCaloriesRemaining();
-        // Drop down menu to select diets. Can be copied and modified to be used for other needs.
-        Spinner mySpinner = findViewById(R.id.spinner1);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_expandable_list_item_1,
-                getResources().getStringArray(R.array.diets));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner.setAdapter(myAdapter);
-        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Object item = parent.getItemAtPosition(position);
-                //print(item.toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         //final TextView textView = findViewById(R.id.text_id);
@@ -162,15 +146,20 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
 
     @Override
     public void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals) {
+        this.mealsEaten = new ArrayList<>();
         ((CalorieCounter) getApplication()).setConsumed(0.0);
         for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
             for (Dish dish : meal.getValue()) {
                 if (this.dateTime != null && this.dateTime.getDate() == meal.getKey().getDate()){
                     // make a listview of meals
                     print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);
+                    mealsEaten.add(dish);
                     ((CalorieCounter) getApplication()).consumeCalories(dish.calories);
                 }
             }
         }
+        ListView listView = findViewById(R.id.mainListview);
+        MainArrayAdapter adapter = new MainArrayAdapter(this, mealsEaten);
+        listView.setAdapter(adapter);
     }
 }

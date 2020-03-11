@@ -50,29 +50,11 @@
         android:backgroundTint="#3db9cc"
         app:autoSizeTextType="uniform" />
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="@android:dimen/thumbnail_height"
-        android:layout_height="@android:dimen/notification_large_icon_width"
-        android:layout_gravity="center|start"
-        android:dropDownWidth="wrap_content"
-        android:textAlignment="center"
-        android:entries="@array/diets"
-        android:spinnerMode="dropdown"
-        android:visibility="visible"
-        android:background="@drawable/button"/>
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="@android:dimen/thumbnail_height"
-        android:layout_height="@android:dimen/notification_large_icon_width"
-        android:layout_gravity="center|end"
-        android:background="@drawable/button"
-        android:dropDownWidth="wrap_content"
-        android:entries="@array/other"
-        android:textAlignment="center"
-        android:spinnerMode="dropdown"
-        android:visibility="visible" />
+    <ListView
+        android:id="@+id/mainListview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/calorieCount" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

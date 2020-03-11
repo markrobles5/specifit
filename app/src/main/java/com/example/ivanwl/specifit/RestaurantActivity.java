@@ -102,6 +102,9 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantC
     //  Update Menu Items passed from /search
     @Override
     public void updateListView(final ArrayList<Hit> foodItems) {
+        if(foodItems.size() == 0)
+            Snackbar.make(this.findViewById(android.R.id.content), "You have surpassed your daily calorie limit!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         ListView listView = findViewById(R.id.dishListview);
         DishArrayAdapter adapter = new DishArrayAdapter(this, foodItems, selectedItems);
 
