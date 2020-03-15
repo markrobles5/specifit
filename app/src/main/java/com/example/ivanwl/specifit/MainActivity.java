@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private BMR bmr;
     private Date dateTime;
     private ArrayList<Dish> mealsEaten;
+    private ArrayList<Dish> allMeals;
 
     @Override
     protected void onResume() {
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     private void goToRestaurants(){
         Intent intent = new Intent(this, RestaurantsActivity.class);
         intent.putExtra("Settings", settings);
-        intent.putExtra("mealsEaten", mealsEaten);
+        intent.putExtra("mealsEaten", allMeals);
         startActivity(intent);
     }
 
@@ -151,9 +152,11 @@ public class MainActivity extends AppCompatActivity implements MainCallBack {
     @Override
     public void retrieveMeals(HashMap<Date, ArrayList<Dish>> meals) {
         this.mealsEaten = new ArrayList<>();
+        this.allMeals = new ArrayList<>();
         ((CalorieCounter) getApplication()).setConsumed(0.0);
         for (Map.Entry<Date, ArrayList<Dish>> meal : meals.entrySet()) {
             for (Dish dish : meal.getValue()) {
+                this.allMeals.add(dish);
                 if (this.dateTime != null && this.dateTime.getDate() == meal.getKey().getDate()){
                     // make a listview of meals
                     print("Date: " + meal.getKey().toString() + ": " + dish.name + ", " + dish.calories);

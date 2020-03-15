@@ -45,10 +45,10 @@ import static com.example.ivanwl.specifit.Utils.Utils.print;
 
 
 public class NutritionixAPI {
-    final private String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
-    final private String APP_ID = "548c69f5";
-//    final private String APP_KEY = "cd40afcf4306dcf1582ccf87b566b9ae";
-//    final private String APP_ID = "ae956aa2";
+//    final private String APP_KEY = "c357b6ce5147c83e6044ecc59ac56027";
+//    final private String APP_ID = "548c69f5";
+    final private String APP_KEY = "cd40afcf4306dcf1582ccf87b566b9ae";
+    final private String APP_ID = "ae956aa2";
     private Activity context;
     private RestaurantsCallback restaurantsCallback;
     private RestaurantCallback restaurantCallback;
